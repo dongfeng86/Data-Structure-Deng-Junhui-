@@ -14,7 +14,8 @@
  *    DSA_PQ_List、DSA_PQ_ComplHeap或DSA_PQ_LeftHeap
  ******************************************************************************************/
 int main(int argc, char* argv[])
-{ //Huffman编码算法统一测试
+{
+	//Huffman编码算法统一测试
 	if (3 > argc)
 	{
 		printf("Usage: %s <sample-text-file> <message#1> [message#2] ...\a\n", argv[0]);
