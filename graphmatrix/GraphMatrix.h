@@ -43,7 +43,10 @@ public:
    virtual int outDegree ( int i ) { return V[i].outDegree; } //出度
    virtual int firstNbr ( int i ) { return nextNbr ( i, n ); } //首个邻接顶点
    virtual int nextNbr ( int i, int j ) //相对于顶点j的下一邻接顶点（改用邻接表可提高效率）
-   { while ( ( -1 < j ) && ( !exists ( i, --j ) ) ); return j; } //逆向线性试探
+   { 
+	   while ( ( -1 < j ) && ( !exists ( i, --j ) ) ); //逆向线性试探
+	   return j; 
+   } 
    virtual VStatus& status ( int i ) { return V[i].status; } //状态
    virtual int& dTime ( int i ) { return V[i].dTime; } //时间标签dTime
    virtual int& fTime ( int i ) { return V[i].fTime; } //时间标签fTime
@@ -51,17 +54,22 @@ public:
    virtual int& priority ( int i ) { return V[i].priority; } //在遍历树中的优先级数
 // 顶点的动态操作
    virtual int insert ( Tv const& vertex ) { //插入顶点，返回编号
-      for ( int j = 0; j < n; j++ ) E[j].insert ( NULL ); n++; //各顶点预留一条潜在的关联边
+      for ( int j = 0; j < n; j++ )
+		  E[j].insert ( NULL ); n++; //各顶点预留一条潜在的关联边
       E.insert ( Vector<Edge<Te>*> ( n, n, ( Edge<Te>* ) NULL ) ); //创建新顶点对应的边向量
       return V.insert ( Vertex<Tv> ( vertex ) ); //顶点向量增加一个顶点
    }
    virtual Tv remove ( int i ) { //删除第i个顶点及其关联边（0 <= i < n）
       for ( int j = 0; j < n; j++ ) //所有出边
-         if ( exists ( i, j ) ) { delete E[i][j]; V[j].inDegree--; e--; } //逐条删除
+         if ( exists ( i, j ) ) {
+			 delete E[i][j]; V[j].inDegree--; e--; 
+		 } //逐条删除
       E.remove ( i ); n--; //删除第i行
       Tv vBak = vertex ( i ); V.remove ( i ); //删除顶点i
       for ( int j = 0; j < n; j++ ) //所有入边
-         if ( Edge<Te> * x = E[j].remove ( i ) ) { delete x; V[j].outDegree--; e--; } //逐条删除
+         if ( Edge<Te> * x = E[j].remove ( i ) ) {
+			 delete x; V[j].outDegree--; e--; 
+		 } //逐条删除
       return vBak; //返回被删除顶点的信息
    }
 // 边的确认操作
